@@ -9,7 +9,16 @@
 				"navigationBarTitleText": "我的"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/createbookshelf/createbookshelf",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "创建书房",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "宠爱",
