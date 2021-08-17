@@ -8,7 +8,7 @@
 		</view>
 		<view style="padding: 20rpx;">
 			<u-button @click="createbookshelf" type="primary" :ripple="true" ripple-bg-color="#909399">新建书房</u-button>
-			<view v-for="item in bookshelfs" style="margin-bottom: 10px;">
+			<view v-for="item in bookshelfs" class="u-m-t-20 u-m-b-20">
 				<bookshelfcell @removeHandler="onRemoveHandler" :data="item"></bookshelfcell>
 			</view>
 		</view>
@@ -18,6 +18,7 @@
 
 <script>
 	import cloudApi from '../../common/cloudApi.js'
+	import bookshelfcell from '@/components/dnms-ui/bookshelfcell.vue'
 	console.log(cloudApi)
 	export default {
 		data() {
@@ -25,6 +26,9 @@
 				userInfo: null,
 				bookshelfs: []
 			}
+		},
+		components: {
+			bookshelfcell
 		},
 		async onLoad() {
 			uni.login({
@@ -39,6 +43,7 @@
 							success: (res) => {
 								console.log(res)
 								this.userInfo = res.result
+								this.getbookshelfs()
 							}
 						})
 					} else {
@@ -47,11 +52,27 @@
 				}
 			})
 		},
+		onShow() {
+			if (this.userInfo) this.getbookshelfs()
+		},
 		methods: {
 			// 创建书房
 			createbookshelf() {
 				uni.navigateTo({
 					url: '/pages/createbookshelf/createbookshelf'
+				})
+			},
+			// 获取书房
+			getbookshelfs() {
+				cloudApi.call({
+					name: 'bookshelfs',
+					data: {
+						action: 'read'
+					},
+					success: (res) => {
+						console.log(res);
+						this.bookshelfs = res.result
+					}
 				})
 			},
 			// 更新用户信息

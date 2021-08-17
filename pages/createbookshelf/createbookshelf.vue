@@ -44,12 +44,6 @@
 						icon: 'none'
 					})
 				}
-				console.log({
-					name: this.name,
-					address: this.address,
-					longitude: this.longitude,
-					latitude: this.latitude
-				})
 				cloudApi.call({
 					name: 'bookshelfs',
 					data: {
@@ -58,6 +52,9 @@
 						address: this.address,
 						longitude: this.longitude,
 						latitude: this.latitude
+					},
+					success: () => {
+						uni.navigateBack()
 					}
 				})
 			},

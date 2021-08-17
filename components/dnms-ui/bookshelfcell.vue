@@ -1,7 +1,7 @@
 <template>
 	<view style="width: 100%;background-color: #fff;border-radius: 8px;border: 1px solid #ccc;overflow: hidden;">
 		<view style="height:30px;line-height: 30px;font-size: 18px;padding:0px 10px;display: flex;justify-content: space-between;">
-			<view @click="btnEnter" style="flex:1;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">{{data.name}}<text style="color:#999;font-size: 12px;margin-left: 5px;">({{data.totalbook}}本藏书)</text></view>
+			<view @click="btnEnter" style="flex:1;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">{{data.name}}<text style="color:#999;font-size: 12px;margin-left: 5px;">({{data.totalbooks}}本藏书)</text></view>
 			<view @click="btnMore" class="iconfont icon-more" style="color: #666;"></view>
 		</view>
 		<view @click="btnEnter">

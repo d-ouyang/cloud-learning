@@ -6,6 +6,7 @@ exports.main = async (event, context) => {
 	const {action, token} = event;
 	const payload = verifyToken(token);
 	const db = uniCloud.database();
+	const dbCmd = db.command;
 	let dbRes;
 	if (action === 'create') {
 		dbRes = await db.collection('bookshelfs').add({
@@ -15,6 +16,14 @@ exports.main = async (event, context) => {
 			geopoint:new db.Geo.Point(event.longitude, event.latitude),
 			totalbooks: 0
 		})
+	} else if (action === 'read') {
+		dbRes = await db.collection('bookshelfs').where({
+			owner: dbCmd.eq(payload.openid)
+		})
+		.field({'owner': false })
+		.orderBy("_id","desc")
+		.limit(10)
+		.get()
 	}
 	//返回数据给客户端
 	return dbRes ? dbRes.data : null;
