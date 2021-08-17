@@ -24,6 +24,10 @@ exports.main = async (event, context) => {
 		.orderBy("_id","desc")
 		.limit(10)
 		.get()
+	} else if (action === 'delete') {
+		dbRes = await db.collection('bookshelfs').where({
+			_id: dbCmd.eq(event._id)
+		}).remove()
 	}
 	//返回数据给客户端
 	return dbRes ? dbRes.data : null;

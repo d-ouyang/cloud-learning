@@ -75,6 +75,14 @@
 					}
 				})
 			},
+			// 删除书房回调
+			onRemoveHandler() {
+				uni.showToast({
+					title: '删除成功',
+					icon: 'none'
+				})
+				this.getbookshelfs();
+			},
 			// 更新用户信息
 			updateUserProfile() {
 				console.log(this.userInfo);
