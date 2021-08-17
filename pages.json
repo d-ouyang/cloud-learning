@@ -13,12 +13,52 @@
             "path" : "pages/createbookshelf/createbookshelf",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "创建书房",
+                "navigationBarTitleText": "书房",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/books/books",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "书架",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/map/map",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "附近",
                 "enablePullDownRefresh": false
             }
             
         }
     ],
+	"tabBar":{
+		"list":[
+			{
+				"iconPath":"static/tabicons/me_0.png",
+				"selectedIconPath":"static/tabicons/me_1.png",
+				"pagePath":"pages/index/index",
+				"text":"我的"
+			},
+			{
+				"iconPath":"static/tabicons/forum_0.png",
+				"selectedIconPath":"static/tabicons/forum_1.png",
+				"pagePath":"pages/books/books",
+				"text":"搜书"
+			},
+			{
+				"iconPath":"static/tabicons/map_0.png",
+				"selectedIconPath":"static/tabicons/map_1.png",
+				"pagePath":"pages/map/map",
+				"text":"地图"
+			}
+		]
+	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "宠爱",

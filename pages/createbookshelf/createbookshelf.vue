@@ -68,8 +68,8 @@
 				cloudApi.call({
 					name: 'bookshelfs',
 					data: {
-						_id: this.option.id || 0,
-						action: this.option.id ? 'update' : 'create',
+						_id: this.option && this.option.id || 0,
+						action: this.option && this.option.id ? 'update' : 'create',
 						name: this.name,
 						address: this.address,
 						longitude: this.longitude,
@@ -81,33 +81,20 @@
 				})
 			},
 			btnChooseLocation() {
-				if (this.option.id) {
-					uni.chooseLocation({
-						latitude:this.latitude,
-						longitude:this.longitude,
-						success: (res) => {
-							console.log(res);
-							this.address= res.address+res.name;
-							this.longitude=res.longitude;
-							this.latitude=res.latitude;
-						}
-					})
-				} else {
-					uni.getLocation({
-						success: (res) => {
-							uni.chooseLocation({
-								latitude:res.latitude,
-								longitude:res.longitude,
-								success: (res) => {
-									console.log(res);
-									this.address= res.address+res.name;
-									this.longitude=res.longitude;
-									this.latitude=res.latitude;
-								}
-							})
-						}
-					})
-				}
+				uni.getLocation({
+					success: (res) => {
+						uni.chooseLocation({
+							latitude:res.latitude,
+							longitude:res.longitude,
+							success: (res) => {
+								console.log(res);
+								this.address= res.address+res.name;
+								this.longitude=res.longitude;
+								this.latitude=res.latitude;
+							}
+						})
+					}
+				})
 			}
 		}
 	}
