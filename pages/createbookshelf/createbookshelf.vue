@@ -22,7 +22,28 @@
 				address: '',
 				name: '',
 				longitude: '',
-				latitude: ''
+				latitude: '',
+				option: null
+			}
+		},
+		onLoad(option) {
+			if (option.id) {
+				this.option = option
+				cloudApi.call({
+					name: 'bookshelfs',
+					data: {
+						action: 'readOne',
+						_id: option.id
+					},
+					success: (res) => {
+						console.log(res)
+						const bookshelf = res.result[0]
+						this.name = bookshelf.name
+						this.address = bookshelf.address
+						this.longitude = bookshelf.geopoint.coordinates[0],
+						this.latitude = bookshelf.geopoint.coordinates[1]
+					}
+				})
 			}
 		},
 		methods: {
@@ -47,7 +68,8 @@
 				cloudApi.call({
 					name: 'bookshelfs',
 					data: {
-						action: 'create',
+						_id: this.option.id || 0,
+						action: this.option.id ? 'update' : 'create',
 						name: this.name,
 						address: this.address,
 						longitude: this.longitude,
@@ -59,20 +81,33 @@
 				})
 			},
 			btnChooseLocation() {
-				uni.getLocation({
-					success: (res) => {
-						uni.chooseLocation({
-							latitude:res.latitude,
-							longitude:res.longitude,
-							success: (res) => {
-								console.log(res);
-								this.address= res.address+res.name;
-								this.longitude=res.longitude;
-								this.latitude=res.latitude;
-							}
-						})
-					}
-				})
+				if (this.option.id) {
+					uni.chooseLocation({
+						latitude:this.latitude,
+						longitude:this.longitude,
+						success: (res) => {
+							console.log(res);
+							this.address= res.address+res.name;
+							this.longitude=res.longitude;
+							this.latitude=res.latitude;
+						}
+					})
+				} else {
+					uni.getLocation({
+						success: (res) => {
+							uni.chooseLocation({
+								latitude:res.latitude,
+								longitude:res.longitude,
+								success: (res) => {
+									console.log(res);
+									this.address= res.address+res.name;
+									this.longitude=res.longitude;
+									this.latitude=res.latitude;
+								}
+							})
+						}
+					})
+				}
 			}
 		}
 	}

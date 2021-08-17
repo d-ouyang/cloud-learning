@@ -28,6 +28,16 @@ exports.main = async (event, context) => {
 		dbRes = await db.collection('bookshelfs').where({
 			_id: dbCmd.eq(event._id)
 		}).remove()
+	} else if (action === 'readOne') {
+		dbRes = await db.collection('bookshelfs').where({
+			_id: dbCmd.eq(event._id)
+		}).get()
+	} else if (action === 'update') {
+		dbRes = await db.collection('bookshelfs').doc(event._id).update({
+			name: event.name,
+			address: event.address,
+			geopoint:new db.Geo.Point(event.longitude, event.latitude)
+		})
 	}
 	//返回数据给客户端
 	return dbRes ? dbRes.data : null;
