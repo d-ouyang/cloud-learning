@@ -26,21 +26,30 @@ exports.main = async (event, context) => {
 		.get()
 	} else if (action === 'delete') {
 		dbRes = await db.collection('bookshelfs').where({
-			_id: dbCmd.eq(event._id)
+			_id: dbCmd.eq(event._id),
+			owner: dbCmd.eq(payload.openid)
 		}).remove()
 	} else if (action === 'readOne') {
-		dbRes = await db.collection('bookshelfs').doc(event._id).get()
+		dbRes = await db.collection('bookshelfs').where({
+			_id: dbCmd.eq(event._id),
+			owner: dbCmd.eq(payload.openid)
+		}).get()
 	} else if (action === 'update') {
-		dbRes = await db.collection('bookshelfs').doc(event._id).update({
+		dbRes = await db.collection('bookshelfs').where({
+			_id: dbCmd.eq(event._id),
+			owner: dbCmd.eq(payload.openid)
+		}).update({
 			name: event.name,
 			address: event.address,
 			geopoint: new db.Geo.Point(event.longitude, event.latitude)
 		})
 	} else if (action === 'listbygeo') {
-		dbRes = await db.collection('bookshelfs').where({
-			geometry: new db.Geo.Point(event.longitude, event.latitude),
-			maxDistance: 1000,
-			minDistance: 0
+		dbRes = await db.collection('bookshelfs').field({'owner': false}).where({
+			geopoint:dbCmd.geoNear({
+				geometry: new db.Geo.Point(event.longitude, event.latitude),
+				maxDistance: 5000,
+				minDistance: 0
+			})
 		})
 		.limit(10)
 		.get()
