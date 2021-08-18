@@ -32,6 +32,12 @@ exports.main = async (event, context) => {
 		let bookdata = RegExp.$1;
 		let data = doubanbook(bookdata)[0]
 		console.log(data, '豆瓣图书资料  isbn')
+		if (!data) {
+			return {
+				errcode: '1001',
+				errMsg: '抱歉，没找到图书'
+			}
+		}
 		let coverImage = await uniCloud.httpclient.request(data.cover_url)
 		console.log(coverImage, '封面图  isbn')
 		const uploadResult = await uniCloud.uploadFile({

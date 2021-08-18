@@ -22,8 +22,7 @@
 <script>
 	import cloudApi from '@/common/cloudApi.js'
 	import bookcell from '@/components/dnms-ui/bookcell.vue'
-	const isbn = '9787549631452'
-	// const isbn = '9787542669964'
+	const isbn = '9787540489502'
 	export default {
 		data() {
 			return {
@@ -52,23 +51,60 @@
 						uni.setNavigationBarTitle({
 							title: bookshelf.name
 						})
+						this.getBooks()
 					}
 				})
 			}
 		},
 		methods: {
+			// 获取图书
+			getBooks() {
+				cloudApi.call({
+					name: 'books',
+					data: {
+						action: 'listbyshelf',
+						shelfid: this.bookshelf._id
+					},
+					success: (res) => {
+						console.log(res)
+						this.books = res.result
+					}
+				})
+			},
 			// 添加图书
 			addBook() {
-				// uni.scanCode({
-				// 	success: (res) => {
-				// 		console.log(res)
-				// 	}
-				// })
-				console.log('添加图书 isbn')
-				cloudApi.call({
-					name: 'ISBNQuery',
-					data: {
-						isbn: isbn
+				uni.scanCode({
+					success: (res) => {
+						console.log(res)
+						console.log('添加图书 isbn')
+						cloudApi.call({
+							name: 'ISBNQuery',
+							data: {
+								isbn: res.result
+							},
+							success: (res) => {
+								console.log(res)
+								if (res.result.errcode === '1001') {
+									uni.showToast({
+										title: res.result.errMsg,
+										icon: 'none'
+									})
+								} else {
+									cloudApi.call({
+										name: 'books',
+										data: {
+											action: 'create',
+											shelfid: this.bookshelf._id,
+											isbnid: res.result._id
+										},
+										success: (res) => {
+											console.log(res)
+											this.getBooks()
+										}
+									})
+								}
+							}
+						})
 					}
 				})
 			},
