@@ -46,7 +46,7 @@
 				const shelf = shelfs[e.detail.markerId]
 				console.log(shelf)
 				uni.navigateTo({
-					url:"/pages/createbookshelf/createbookshelf?id="+shelf._id
+					url:"/pages/bookshelf/bookshelf?id="+shelf._id
 				})
 			},
 			// 视野变化

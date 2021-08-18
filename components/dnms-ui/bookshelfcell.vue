@@ -27,7 +27,7 @@
 		methods:{
 			btnEnter(){
 				uni.navigateTo({
-					url:"/pages/createbookshelf/createbookshelf?id="+this.data._id
+					url:"/pages/bookshelf/bookshelf?id="+this.data._id
 				})
 			},
 			btnMore(){

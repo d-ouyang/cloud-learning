@@ -36,6 +36,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/bookshelf/bookshelf",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"tabBar":{
 		"list":[
