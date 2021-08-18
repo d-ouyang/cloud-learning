@@ -22,12 +22,15 @@
 <script>
 	import cloudApi from '@/common/cloudApi.js'
 	import bookcell from '@/components/dnms-ui/bookcell.vue'
+	const isbn = '9787549631452'
+	// const isbn = '9787542669964'
 	export default {
 		data() {
 			return {
 				option: null,
 				isEditing: false,
-				books: []
+				books: [],
+				bookshelf: {}
 			}
 		},
 		components: {
@@ -45,10 +48,7 @@
 					success: (res) => {
 						console.log(res)
 						const bookshelf = res.result[0]
-						this.name = bookshelf.name
-						this.address = bookshelf.address
-						this.longitude = bookshelf.geopoint.coordinates[0],
-						this.latitude = bookshelf.geopoint.coordinates[1]
+						this.bookshelf = bookshelf
 						uni.setNavigationBarTitle({
 							title: bookshelf.name
 						})
@@ -59,9 +59,16 @@
 		methods: {
 			// 添加图书
 			addBook() {
-				uni.scanCode({
-					success: (res) => {
-						console.log(res)
+				// uni.scanCode({
+				// 	success: (res) => {
+				// 		console.log(res)
+				// 	}
+				// })
+				console.log('添加图书 isbn')
+				cloudApi.call({
+					name: 'ISBNQuery',
+					data: {
+						isbn: isbn
 					}
 				})
 			},
