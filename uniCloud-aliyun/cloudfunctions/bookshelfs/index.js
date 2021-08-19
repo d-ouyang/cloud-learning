@@ -31,8 +31,7 @@ exports.main = async (event, context) => {
 		}).remove()
 	} else if (action === 'readOne') {
 		dbRes = await db.collection('bookshelfs').where({
-			_id: dbCmd.eq(event._id),
-			owner: dbCmd.eq(payload.openid)
+			_id: dbCmd.eq(event._id)
 		}).get()
 	} else if (action === 'update') {
 		dbRes = await db.collection('bookshelfs').where({
